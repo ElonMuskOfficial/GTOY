@@ -36,7 +36,7 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 # the OAuth 2.0 information for this application, including its client_id and
 # client_secret. You can acquire an OAuth 2.0 client ID and client secret from
 # the Google API Console at
-# https://console.cloud.google.com/.
+# https://console.developers.google.com/.
 # Please ensure that you have enabled the YouTube Data API for your project.
 # For more information about using OAuth2 to access the YouTube Data API, see:
 #   https://developers.google.com/youtube/v3/guides/authentication
@@ -61,7 +61,7 @@ found at:
    %s
 
 with information from the API Console
-https://console.cloud.google.com/
+https://console.developers.google.com/
 
 For more information about the client_secrets.json file format, please visit:
 https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
@@ -130,11 +130,11 @@ def resumable_upload(insert_request):
   retry = 0
   while response is None:
     try:
-      print "Uploading file..."
+      print( "Uploading file...")
       status, response = insert_request.next_chunk()
       if response is not None:
         if 'id' in response:
-          print "Video id '%s' was successfully uploaded." % response['id']
+          print( "Video id '%s' was successfully uploaded." % response['id'])
         else:
           exit("The upload failed with an unexpected response: %s" % response)
     except HttpError, e:
@@ -147,14 +147,14 @@ def resumable_upload(insert_request):
       error = "A retriable error occurred: %s" % e
 
     if error is not None:
-      print error
+      print( error)
       retry += 1
       if retry > MAX_RETRIES:
         exit("No longer attempting to retry.")
 
       max_sleep = 2 ** retry
       sleep_seconds = random.random() * max_sleep
-      print "Sleeping %f seconds and then retrying..." % sleep_seconds
+      print( "Sleeping %f seconds and then retrying..." % sleep_seconds)
       time.sleep(sleep_seconds)
 
 if __name__ == '__main__':
@@ -178,4 +178,4 @@ if __name__ == '__main__':
   try:
     initialize_upload(youtube, args)
   except HttpError, e:
-    print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+    print( "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
