@@ -5,13 +5,14 @@ import os
 import random
 import sys
 import time
+import argparse
 
-from apiclient.discovery import build
-from apiclient.errors import HttpError
-from apiclient.http import MediaFileUpload
 from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 
 # Explicitly tell the underlying HTTP transport library not to retry, since
 # we are handling retry logic ourselves.
@@ -99,6 +100,8 @@ def initialize_upload(youtube, options):
                 raise
 
 if __name__ == "__main__":
+    argparser = argparse.ArgumentParser(description="Upload a video to YouTube")
+    
     argparser.add_argument("--file", required=True, help="Video file to upload")
     argparser.add_argument("--title", help="Video title", default="Test Title")
     argparser.add_argument("--description", help="Video description", default="Test Description")
